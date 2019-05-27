@@ -1,0 +1,12 @@
+#Gradle
+.gradle
+build
+
+#IDEA
+.idea
+
+#GAP
+.aem
+
+#Mac
+.DS_Store
