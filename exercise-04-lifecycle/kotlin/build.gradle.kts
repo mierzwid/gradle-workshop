@@ -7,7 +7,7 @@
 
 println("Gradle Workshop: build.gradle.kts : This is configuration phase!")
 
-tasks.create("hello") {
+tasks.register("hello") {
     doFirst {
         println("Gradle Workshop: build.gradle.kts : This is execution phase!")
     }
