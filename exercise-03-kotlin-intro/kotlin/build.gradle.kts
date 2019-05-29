@@ -9,16 +9,17 @@ println("Hello World!")
 
 System.out.println("Using Java Libs")
 
-// muttablity
+// mutability
 
-val immuttable = "immutable value" // immutable = "new value" - won't compile
-var muttable = "muttable"
-muttable = "new value"
-println("Printing values: $immuttable, $muttable")
+val immutable = "immutable value" // immutable = "new value" - won't compile
+var mutable = "mutable"
+mutable = "new value"
+println("Printing values: $immutable, $mutable")
 
 // nullable types
 
 val nullableString: String? = null
+val string: String = nullableString ?: "default value"
 println("Printing nullable type: ${nullableString ?: "default value"}")
 
 // Functions and return statement
@@ -31,18 +32,17 @@ sayHelloWorld()
 fun createMessage() { // in functions we need to return result explicitly
     "Last expression is returned from a function"
 }
-
 println(createMessage()) //kotlin.Unit
 
-val createMessageLmbda =  { // last expression in lambda is returned
+val createMessageLambda = {
+    // last expression in lambda is returned
     "Last expression is returned from a function"
 }
 
-println(createMessageLmbda()) // Last expression is returned from a function
+println(createMessageLambda()) // Last expression is returned from a function
 
 // Objects
-class AEM(val company: String, val version: String) { // final by default
-}
+class AEM(val company: String, val version: String) // final by default
 
 val aem = AEM("Adobe", "6.5") // new keyword omitted
 
@@ -50,7 +50,40 @@ println("AEM ${aem.version} made by ${aem.company}")
 
 // Lambdas - advanced
 
-val echoIt: (Any) -> Unit = { // need to specify type explicitly since it cannot be inferred otherwise
+val echoIt: (Any) -> Unit = {
+    // need to specify type explicitly since it cannot be inferred otherwise
     println("Echoing it: $it")
 }
-echoIt(true) 
+echoIt(true)
+
+// Extention function
+fun AEM.prettyName() {
+    println("Pretty: AEM $version made by $company")
+}
+
+aem.prettyName()
+
+// Receiving objects
+
+class Plugin(var name: String = "Fast Plugin", var timeout: Long = 100L) {
+    fun doTheJob() {
+        println("$name work started!")
+        Thread.sleep(timeout)
+        println("$name work done!")
+    }
+}
+
+val plugin = Plugin()
+
+plugin.doTheJob()
+
+fun pluginDsl(configurer: Plugin.() -> Unit) {
+    plugin.apply(configurer)
+}
+
+pluginDsl {
+    name = "Slow plugin"
+    timeout = 5000L
+}
+
+plugin.doTheJob()
