@@ -10,3 +10,31 @@
 rootProject.name = "gradle-workshop"
 
 println("Gradle Workshop: settings.gradle.kts : This is also initialization phase!")
+
+// Script Object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
+logger.lifecycle("Current dir: ${file(".").path}")
+
+fileTree(".") {
+    files.filter { it.path.contains("build") }.forEach { file ->
+        logger.lifecycle(file.path)
+    }
+}
+
+mkdir(".aem")
+mkdir(".gap")
+
+delete(".aem", ".gap")
+
+// Settings Object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
+
+println("Root dir: $rootDir")
+println("Settings: $settingsDir")
+
+// plus configuration of projects which we will cover in multiproject builds: include(projectPaths), etc.
+//file('subprojects').eachDir { dir ->
+//    include dir.name
+//            project(":${dir.name}").projectDir = dir
+//}
+
+val property: String by settings
+println("Property value: $property")
