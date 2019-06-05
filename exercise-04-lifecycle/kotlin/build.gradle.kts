@@ -10,5 +10,27 @@ println("Gradle Workshop: build.gradle.kts : This is configuration phase!")
 tasks.register("hello") {
     doFirst {
         println("Gradle Workshop: build.gradle.kts : This is execution phase!")
+
+        logger.lifecycle("${project.extra["myExtraPropertyUsedLaterOn"]}") // you must reference it via project sinvce task has its own `extra
     }
 }
+
+// Project Object: https://docs.gradle.org/current/dsl/org.gradle.api.Project.html
+
+// Accessing gradle.properties
+logger.lifecycle("Property value: ${property("property")}")
+
+// Extra properties
+extra["myExtraPropertyUsedLaterOn"] = "MY EXTRA PROPERTY"
+
+// Project configuration
+
+logger.lifecycle("Project name: $name")
+logger.lifecycle("$state")
+logger.lifecycle("Build dir: $buildDir")
+
+// setting default tasks
+defaultTasks("hello")
+
+// Project can be extended by Plugins with additional properties:
+// e.g. `applicationDefaultJvmArgs` added by the "application" plugin

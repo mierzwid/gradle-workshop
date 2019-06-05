@@ -27,8 +27,8 @@ delete(".aem", ".gap")
 
 // Settings Object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
 
-println("Root dir: $rootDir")
-println("Settings: $settingsDir")
+logger.lifecycle("Root dir: $rootDir")
+logger.lifecycle("Settings: $settingsDir")
 
 // plus configuration of projects which we will cover in multiproject builds: include(projectPaths), etc.
 //file('subprojects').eachDir { dir ->
@@ -36,5 +36,7 @@ println("Settings: $settingsDir")
 //            project(":${dir.name}").projectDir = dir
 //}
 
+// accessing properties: https://kotlinlang.org/docs/reference/delegated-properties.html
+
 val property: String by settings
-println("Property value: $property")
+logger.lifecycle("Property value: $property")

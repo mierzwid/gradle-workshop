@@ -5,24 +5,26 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
+// Based on https://kotlinlang.org/docs/reference/
+
 println("Hello World!")
 
 System.out.println("Using Java Libs")
 
-// mutability
+// mutability: https://kotlinlang.org/docs/reference/basic-syntax.html#defining-variables
 
 val immutable = "immutable value" // immutable = "new value" - won't compile
 var mutable = "mutable"
 mutable = "new value"
 println("Printing values: $immutable, $mutable")
 
-// nullable types
+// nullable types: https://kotlinlang.org/docs/reference/basic-syntax.html#using-nullable-values-and-checking-for-null
 
 val nullableString: String? = null
 val string: String = nullableString ?: "default value"
 println("Printing nullable type: ${nullableString ?: "default value"}")
 
-// Functions and return statement
+// Functions and return statement: https://kotlinlang.org/docs/reference/functions.html#functions
 fun sayHelloWorld() {
     println("Function Hello World")
 }
@@ -32,7 +34,7 @@ sayHelloWorld()
 fun createMessage() { // in functions we need to return result explicitly
     "Last expression is returned from a function"
 }
-println(createMessage()) //kotlin.Unit
+println(createMessage()) // kotlin.Unit
 
 val createMessageLambda = {
     // last expression in lambda is returned
@@ -41,14 +43,14 @@ val createMessageLambda = {
 
 println(createMessageLambda()) // Last expression is returned from a function
 
-// Objects
+// Classes and Objects: https://kotlinlang.org/docs/reference/classes.html#classes-and-inheritance
 class AEM(val company: String, val version: String) // final by default
 
 val aem = AEM("Adobe", "6.5") // new keyword omitted
 
 println("AEM ${aem.version} made by ${aem.company}")
 
-// Lambdas - advanced
+// Lambdas: https://kotlinlang.org/docs/reference/lambdas.html
 
 val echoIt: (Any) -> Unit = {
     // need to specify type explicitly since it cannot be inferred otherwise
@@ -56,14 +58,14 @@ val echoIt: (Any) -> Unit = {
 }
 echoIt(true)
 
-// Extention function
+// Extention functions: https://kotlinlang.org/docs/reference/extensions.html#extension-functions
 fun AEM.prettyName() {
     println("Pretty: AEM $version made by $company")
 }
 
 aem.prettyName()
 
-// Receiving objects
+// Function literals with receiver: https://kotlinlang.org/docs/reference/lambdas.html#function-literals-with-receiver
 
 class Plugin(var name: String = "Fast Plugin", var timeout: Long = 100L) {
     fun doTheJob() {
