@@ -7,17 +7,40 @@
 
 // Configuration vs execution: ./gradlew tasks
 
-tasks.register("hello") {
+val hello: TaskProvider<Task> = tasks.register("hello") {
+    logger.lifecycle("Lite task configuration!")
+    // Thread.sleep(5000) // this would slow down configuration phase! don't do heavy lifting outside task actions! (doFirst, doLast)
     doFirst {
         logger.lifecycle("Heavy lifting!")
-        Thread.sleep(5000)
+        repeat(5) {
+            Thread.sleep(1000)
+            logger.lifecycle("$it")
+        }
     }
-    logger.lifecycle("Lite task configuration!")
+    doLast {
+        logger.lifecycle("Finalizing my work!")
+    }
 }
+
+//hello.get() // defeats the concept of configuration avoidance when task it not run
 
 logger.lifecycle("Lite project configuration!")
 
+// Tasks dependencied
 
+tasks.register("by") {
+    doLast {
+        logger.lifecycle("Good by!")
+    }
+    mustRunAfter("hello")
+}
+
+tasks.register("helloAndBy") {
+    dependsOn("hello", "by")
+//    finalizedBy("by")
+}
+
+// Exercise: check the difference between mustRunAfter and finalizedBy when hello task fails
 
 
 
