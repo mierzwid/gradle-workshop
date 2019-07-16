@@ -33,6 +33,7 @@ application {
 
 // ./gradlew build
 gradle.taskGraph.whenReady {
+    println("Task graph:")
     allTasks.forEach {
         println("${it.name}")
     }
