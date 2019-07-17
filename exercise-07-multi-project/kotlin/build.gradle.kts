@@ -37,7 +37,7 @@ project(":bluewhale") {
     }
 }
 
-// 5. See project krill
+// 5. Specific behaviour placed in projects script - see project krill
 
 // 6. Dynamic configuration via filtering
 
@@ -49,7 +49,8 @@ configure(subprojects.filter { it.name != "tropicalFish" }) {
     }
 }
 
-// 7. Filtering via properties
+// 7. Filtering via properties - configuration dependencies
+
 subprojects {
     val hello by tasks.existing
 
@@ -63,3 +64,15 @@ subprojects {
         }
     }
 }
+
+// 8. Let's switch to the bluewhale project dir and execite from there. What is your guess?
+
+// ../gradlew -q hello
+//Gradle always eveluates all projects of a multi-project build and only then filters tasks by parameters and current dir.
+
+// 9. Add task only to spacific projects and execute it from toplevel
+// go to bluewhale and krill projects
+
+// 10. Execute tasks by their absolute path
+
+// cd tropicalFish ; ../gradlew -q :hello :krill:hello hello
