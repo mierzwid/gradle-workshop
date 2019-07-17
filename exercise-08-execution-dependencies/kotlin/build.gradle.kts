@@ -12,3 +12,7 @@ extra["producerMessage"] = null
 // -> consumer gets null, since it executes as first; executiong tasks in alphanumeric order
 
 // 2. Add dependencies - see consumer build script
+
+// Good practices - decoupled projects
+// * Avoid a subproject’s build script referencing other subprojects; preferring cross configuration from the root project.
+// * Avoid changing the configuration of other projects at execution time.
