@@ -16,3 +16,4 @@ extra["producerMessage"] = null
 // Good practices - decoupled projects
 // * Avoid a subproject’s build script referencing other subprojects; preferring cross configuration from the root project.
 // * Avoid changing the configuration of other projects at execution time.
+// * Instead, use output artifacts of a project in another one
