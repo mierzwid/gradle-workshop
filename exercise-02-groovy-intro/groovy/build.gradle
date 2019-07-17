@@ -76,13 +76,13 @@ class Obj {
     String name = "Obj name"
 
     Closure printer = {
-        println "Prop value: $prop"
+        println "Prop value: $name"
     }
 }
 
 def obj = new Obj()
 obj.printer() //Prop value: prop value
-obj.printer = { println name } // context of a build file
+obj.printer = { println "Prop value: $name" } // context of a build file
 obj.printer() //gradle-workshop 
 
 def variable = "A"
@@ -94,12 +94,6 @@ def echoVariable = {
 variable = "B"
 
 echoVariable()
-
-def customClosure = {
-    println name
-}
-
-customClosure()
 
 // setting closure context (delegate)
 
@@ -115,4 +109,5 @@ class ContextObj {
 
 def context = new ContextObj()
 
+context.executeInside { println "My prop: $prop" }
 context.executeInside { println "My name: $name" }
