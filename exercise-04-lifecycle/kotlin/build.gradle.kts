@@ -5,13 +5,15 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
+//2. this will go to the configuration phase of a project
 println("Gradle Workshop: build.gradle.kts : This is configuration phase!")
 
 tasks.register("hello") {
     doFirst {
+        //3. this will get run during execution phase
         println("Gradle Workshop: build.gradle.kts : This is execution phase!")
-
-        logger.lifecycle("${project.extra["myExtraPropertyUsedLaterOn"]}") // you must reference it via project sinvce task has its own `extra
+        // it does not matter this prop is not defined at configuration phase - it will be needed only during execution of this particular task
+        logger.lifecycle("${project.extra["myExtraPropertyUsedLaterOn"]}") // you must reference it via project since task has its own `extra`
     }
 }
 

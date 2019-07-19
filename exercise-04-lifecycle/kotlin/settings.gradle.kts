@@ -9,17 +9,20 @@
 
 rootProject.name = "gradle-workshop"
 
+//1.
 println("Gradle Workshop: settings.gradle.kts : This is also initialization phase!")
 
 // Script Object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
 logger.lifecycle("Current dir: ${file(".").path}")
 
+// we have access to project file tree at this point
 fileTree(".") {
-    files.filter { it.path.contains("build") }.forEach { file ->
-        logger.lifecycle(file.path)
+    files.filter { it.path.contains(".") }.forEach { file ->
+        logger.lifecycle("- ${file.path}")
     }
 }
 
+// we can perform file operations
 mkdir(".aem")
 mkdir(".gap")
 
@@ -31,10 +34,7 @@ logger.lifecycle("Root dir: $rootDir")
 logger.lifecycle("Settings: $settingsDir")
 
 // plus configuration of projects which we will cover in multiproject builds: include(projectPaths), etc.
-//file('subprojects').eachDir { dir ->
-//    include dir.name
-//            project(":${dir.name}").projectDir = dir
-//}
+//include("bluewhale", "krill", "tropicalFish")
 
 // accessing properties: https://kotlinlang.org/docs/reference/delegated-properties.html
 

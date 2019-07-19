@@ -1,3 +1,4 @@
+//1. place this file in ~/.gradle directory
 println("Gradle Workshop: init.gradle.kts : This is initialization phase.")
 
 // Script object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
