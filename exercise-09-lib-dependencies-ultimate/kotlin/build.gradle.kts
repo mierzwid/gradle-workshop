@@ -38,3 +38,5 @@ project(":services:personService") {
 // * build - builds, test, analyze current project (if there are plugins hooked), skips testing and alayzing of depenedent projects
 // * buildNeeded - builds, test, analyze current project together with all projects it depends on
 // * buildDependents - builds, test, analyze current project, projects it depends on and all projects that depends on the current
+
+// Exercise: Why we use String ("implementation") instead of implementation DSL?

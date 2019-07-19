@@ -5,6 +5,7 @@ tasks.register("action") {
 }
 
 //2. Adding dependencies
+// Exercise: make this build work - consumer consume message only after it is produced
 
 tasks.named("action") {
     dependsOn(":producer:action")
