@@ -41,14 +41,15 @@ val createMessageLambda = {
     "Last expression is returned from a function"
 }
 
-println(createMessageLambda()) // Last expression is returned from a function
+println(createMessageLambda()) // Last expression is returned from a lambda
 
 // Classes and Objects: https://kotlinlang.org/docs/reference/classes.html#classes-and-inheritance
-class AEM(val company: String, val version: String) // final by default
-
+class AEM(val company: String, val version: String) {  // final by default
+    fun fullName() = "AEM ${aem.version} made by ${aem.company}" // short notation -> return type inferred
+}
 val aem = AEM("Adobe", "6.5") // new keyword omitted
 
-println("AEM ${aem.version} made by ${aem.company}")
+println(aem.fullName()) // props are public by default
 
 // Lambdas: https://kotlinlang.org/docs/reference/lambdas.html
 
