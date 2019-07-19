@@ -7,7 +7,7 @@
 
 // Configuration vs execution: ./gradlew tasks
 
-val hello: TaskProvider<Task> = tasks.register("hello") {
+/*val hello: TaskProvider<Task> = */tasks.register("hello") {
     logger.lifecycle("Lite task configuration!")
     // Thread.sleep(5000) // this would slow down configuration phase! don't do heavy lifting outside task actions! (doFirst, doLast)
     doFirst {

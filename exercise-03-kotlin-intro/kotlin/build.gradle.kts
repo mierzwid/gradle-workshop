@@ -47,6 +47,7 @@ println(createMessageLambda()) // Last expression is returned from a lambda
 class AEM(val company: String, val version: String) {  // final by default
     fun fullName() = "AEM ${aem.version} made by ${aem.company}" // short notation -> return type inferred
 }
+
 val aem = AEM("Adobe", "6.5") // new keyword omitted
 
 println(aem.fullName()) // props are public by default
@@ -90,3 +91,65 @@ pluginDsl {
 }
 
 plugin.doTheJob()
+
+
+//Exercise: Write code enabling to create HTML - body and div tags
+println("Exercise: Write code enabling to create HTML - body and div tags")
+
+val document = html {
+    body {
+        div {
+            attribute("id", "id-header")
+            attribute("class", "header")
+        }
+        div {
+            attribute("id", "id-content")
+            attribute("class", "content")
+        }
+        div {
+            attribute("id", "id-footer")
+            attribute("class", "footer")
+        }
+    }
+}
+
+println(document)
+
+fun html(block: HTML.() -> Unit) = HTML().apply(block).toString()
+
+class HTML {
+
+    private val body = Body()
+
+    fun body(block: Body.() -> Unit) {
+        body.apply(block)
+    }
+
+    override fun toString() = body.toString()
+}
+
+class Body {
+    private var divs = listOf<Div>()
+
+    fun div(block: Div.() -> Unit) {
+        divs += Div().apply(block)
+    }
+
+    override fun toString() = """
+            <html>
+                <body>
+                    ${divs.map { it.toString() }.joinToString("\n")}
+                </body>
+            </html>
+        """
+}
+
+class Div {
+    val attributes = mutableMapOf<String, String>()
+
+    fun attribute(name: String, value: String) {
+        attributes[name] = value
+    }
+
+    override fun toString() = "<div ${attributes.map { "${it.key}=\"${it.value}\"" }.joinToString(" ")}></div>"
+}
