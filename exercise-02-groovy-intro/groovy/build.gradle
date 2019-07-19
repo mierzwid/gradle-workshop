@@ -5,11 +5,14 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
+// Hello world in Groovy: http://docs.groovy-lang.org/next/html/documentation/
+
 println "Hello World!"
 
+// we can use any Java libraries from Groovy
 System.out.println "Using Java Libs"
 
-// Functions and return statement
+// Functions and return statement - function definition
 def sayHelloWorld() {
     println "Function Hello World"
 }
@@ -29,6 +32,10 @@ class AEM {
     
     String version
 
+    def fullName() {
+        "AEM $version made by $company"
+    }
+
     AEM (company, version){
         this.company = company
         this.version = version
@@ -37,7 +44,9 @@ class AEM {
 
 def aem = new AEM("Adobe", "6.5")
 
-println "AEM $aem.version made by $aem.company"
+// object properties are public y default
+println aem.fullName()
+println aem.version
 
 // Closures
 
@@ -46,12 +55,7 @@ def echoIt = {
 }
 echoIt(true)
 
-def echoParameter = { parameter ->
-    println "Echoing parameter: $parameter"
-}
-echoParameter(true)
-
-// Passing closures
+// Passing closures - like JS function, closure is an object
 
 def oneArgMethod(closure) {
     closure() * 2
@@ -65,11 +69,14 @@ def twoArgMethod(factor, closure) {
 
 println "One arg method: ${twoArgMethod(3) { 4 }}"
 
+
+// Looping
+// make sure to name param, since it name will be overridden in subsequent lambda
 [1, 2, 3, 4, 5].each { param -> 
     println oneArgMethod { param }
 }
 
-// Closure context
+// Closure context - lexical scope and delegates
 
 class Obj {
     String prop = "prop value"
@@ -85,6 +92,8 @@ obj.printer() //Prop value: prop value
 obj.printer = { println "Prop value: $name" } // context of a build file
 obj.printer() //gradle-workshop 
 
+
+// Closure get reference to an object, not a value itself.
 def variable = "A"
 
 def echoVariable = {
@@ -96,7 +105,6 @@ variable = "B"
 echoVariable()
 
 // setting closure context (delegate)
-
 class ContextObj {
     String prop = "prop value"
     String name = "Obj name"
