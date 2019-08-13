@@ -35,7 +35,7 @@ project(":services:personService") {
 }
 
 // 2. If we are developing api project, we have 3 different options to build it:
-// * build - builds, test, analyze current project (if there are plugins hooked), skips testing and alayzing of depenedent projects
+// * build - builds, test, analyze current project (if there are plugins hooked), skips testing and analyzing of dependent projects
 // * buildNeeded - builds, test, analyze current project together with all projects it depends on
 // * buildDependents - builds, test, analyze current project, projects it depends on and all projects that depends on the current
 
