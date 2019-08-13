@@ -45,7 +45,7 @@ println(createMessageLambda()) // Last expression is returned from a lambda
 
 // Classes and Objects: https://kotlinlang.org/docs/reference/classes.html#classes-and-inheritance
 class AEM(val company: String, val version: String) {  // final by default
-    fun fullName() = "AEM ${aem.version} made by ${aem.company}" // short notation -> return type inferred
+    fun fullName() = "AEM $version made by $company" // short notation -> return type inferred
 }
 
 val aem = AEM("Adobe", "6.5") // new keyword omitted
