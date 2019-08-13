@@ -28,7 +28,7 @@ mkdir(".gap")
 
 delete(".aem", ".gap")
 
-// Settings Object: https://docs.gradle.org/current/dsl/org.gradle.api.Script.html
+// Settings Object: https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html
 
 logger.lifecycle("Root dir: $rootDir")
 logger.lifecycle("Settings: $settingsDir")
