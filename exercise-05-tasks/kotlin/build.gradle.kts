@@ -36,7 +36,7 @@ tasks.register("by") {
 }
 
 tasks.register("helloAndBy") {
-    dependsOn("hello", "by")
+    dependsOn("by", "hello")
 //    finalizedBy("by")
 }
 
@@ -44,4 +44,5 @@ tasks.register("helloAndBy") {
 
 // Docs for lazy configuration: https://docs.gradle.org/current/userguide/lazy_configuration.html
 // ./gradlew -Dorg.gradle.internal.tasks.stats hello
+// ./gradlew --scan hello
 

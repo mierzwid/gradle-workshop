@@ -5,19 +5,19 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
-// 1. Configuring current project - based on build script location
-tasks.register("hello") { doLast { println("Welcome to The Water project") } }
 
-// 2. Configuring all projects at once
+// 1. Configuring all projects at once
 allprojects {
-    // findByName finds task for thew water project
-    // and when we are in a subproject we need to register the hello task since it is not yet present there
-    tasks.findByName("hello") ?: tasks.register("hello") {
+    // when we are in a subproject we need to register the hello task since it is not yet present there
+    tasks.register("hello") {
         doLast {
-            println("I'm ${this.project.name}")
+            println("I'm ${project.name}")
         }
     }
 }
+
+// 2. Configuring current project - based on build script location
+tasks.named("hello") { doFirst { println("Welcome to The Water project") } }
 
 // 3. Configuring sub-projects only
 subprojects {
@@ -55,7 +55,7 @@ subprojects {
     val hello by tasks.existing
 
     afterEvaluate {
-        if(extra["isFish"] as Boolean) {
+        if (extra["isFish"] as Boolean) {
             hello {
                 doLast {
                     println("- I'm a fish")
@@ -65,13 +65,14 @@ subprojects {
     }
 }
 
-// 8. Let's switch to the bluewhale project dir and execite from there. What is your guess?
+// 8. Let's switch to the bluewhale project dir and execute from there. What is your guess?
 
 // ../gradlew -q hello
-//Gradle always eveluates all projects of a multi-project build and only then filters tasks by parameters and current dir.
+//Gradle always evaluates all projects of a multi-project build and only then filters tasks by parameters and current dir.
 
-// 9. Add task only to spacific projects and execute it from toplevel
+// 9. Add task only to specific projects and execute it from toplevel
 // go to bluewhale and krill projects
+// ./gradlew distanceToIceberg
 
 // 10. Execute tasks by their absolute path
 
