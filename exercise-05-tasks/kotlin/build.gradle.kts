@@ -7,7 +7,7 @@
 
 // Configuration vs execution: ./gradlew tasks
 
-/*val hello: TaskProvider<Task> = */tasks.register("hello") {
+val hello: TaskProvider<Task> = tasks.register("hello") {
     logger.lifecycle("Lite task configuration!")
     // Thread.sleep(5000) // this would slow down configuration phase! don't do heavy lifting outside task actions! (doFirst, doLast)
     doFirst {
@@ -32,7 +32,7 @@ tasks.register("by") {
     doLast {
         logger.lifecycle("Good by!")
     }
-    mustRunAfter("hello")
+    mustRunAfter(hello)
 }
 
 tasks.register("helloAndBy") {
@@ -42,6 +42,6 @@ tasks.register("helloAndBy") {
 
 // Exercise: check the difference between mustRunAfter and finalizedBy when hello task fails
 
-
-
+// Docs for lazy configuration: https://docs.gradle.org/current/userguide/lazy_configuration.html
+// ./gradlew -Dorg.gradle.internal.tasks.stats hello
 
