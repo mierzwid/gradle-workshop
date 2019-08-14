@@ -34,6 +34,8 @@ val copy = tasks.named("copyMyFile") {
 
 // 2. Tasks dependencies
 
+// see more on developing custom tasks: https://docs.gradle.org/current/userguide/custom_tasks.html
+
 tasks.register("usingTheCopy") {
     doLast {
         fileTree(resourcesDestination).forEach {
