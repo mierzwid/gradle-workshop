@@ -5,7 +5,7 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
-// Configuration vs execution: ./gradlew tasks
+// 1. Configuration vs execution: ./gradlew tasks
 
 val hello: TaskProvider<Task> = tasks.register("hello") {
     logger.lifecycle("Lite task configuration!")
@@ -26,7 +26,7 @@ val hello: TaskProvider<Task> = tasks.register("hello") {
 
 logger.lifecycle("Lite project configuration!")
 
-// Tasks dependencied
+// 2. Tasks dependencies
 
 tasks.register("by") {
     doLast {
@@ -36,9 +36,12 @@ tasks.register("by") {
 }
 
 tasks.register("helloAndBy") {
-    dependsOn("by", "hello")
+    dependsOn("hello", "by")
 //    finalizedBy("by")
 }
+
+// 3. Show parallel tasks execution by removing mustRunAfter
+// ./gradlew helloAndBy
 
 // Exercise: check the difference between mustRunAfter and finalizedBy when hello task fails
 
