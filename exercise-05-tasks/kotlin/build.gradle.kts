@@ -7,41 +7,66 @@
 
 // 1. Configuration vs execution: ./gradlew tasks
 
-val hello: TaskProvider<Task> = tasks.register("hello") {
-    logger.lifecycle("Lite task configuration!")
-    // Thread.sleep(5000) // this would slow down configuration phase! don't do heavy lifting outside task actions! (doFirst, doLast)
+// create directory with files
+
+val resourcesDestination = "$buildDir/resources"
+
+// for other types of tasks to work with files please see: https://docs.gradle.org/current/userguide/working_with_files.html
+tasks.register<Copy>("copyMyFile") {
+    from("src")
+    into(resourcesDestination)
+}
+
+val copy = tasks.named("copyMyFile") {
     doFirst {
-        logger.lifecycle("Heavy lifting!")
+        logger.lifecycle("Started: $name")
         repeat(5) {
             Thread.sleep(1000)
-            logger.lifecycle("$it")
+            logger.lifecycle("Copying: $it")
         }
     }
     doLast {
-        logger.lifecycle("Finalizing my work!")
+        logger.lifecycle("Done copying!")
     }
 }
 
-//hello.get() // defeats the concept of configuration avoidance when task it not run
-
-logger.lifecycle("Lite project configuration!")
+//copy.get() // defeats the concept of configuration avoidance when task it not run
 
 // 2. Tasks dependencies
 
-tasks.register("by") {
+tasks.register("usingTheCopy") {
     doLast {
-        logger.lifecycle("Good by!")
+        fileTree(resourcesDestination).forEach {
+            logger.lifecycle("COPIED FILE: ${it.path}")
+        }
     }
-    mustRunAfter(hello)
 }
 
-tasks.register("helloAndBy") {
-    dependsOn("hello", "by")
-//    finalizedBy("by")
+tasks.register("build") {
+    dependsOn("copyMyFile", "usingTheCopy")
 }
 
 // 3. Show parallel tasks execution by removing mustRunAfter
-// ./gradlew helloAndBy
+// ./gradlew meeting
+
+tasks.register("hello") {
+    doFirst {
+        Thread.sleep(1000)
+        logger.lifecycle("Hello!")
+    }
+//    finalizedBy("by")
+}
+
+tasks.register("by") {
+    doFirst {
+        logger.lifecycle("By!")
+    }
+    mustRunAfter("hello")
+}
+
+tasks.register("meeting") {
+    dependsOn("hello", "by")
+}
 
 // Exercise: check the difference between mustRunAfter and finalizedBy when hello task fails
 
