@@ -13,7 +13,7 @@ val resourcesDestination = "$buildDir/resources"
 
 // for other types of tasks to work with files please see: https://docs.gradle.org/current/userguide/working_with_files.html
 tasks.register<Copy>("copyMyFile") {
-    from("src")
+    from(fileTree("src").filter { it.name.contains(".json") }.files)
     into(resourcesDestination)
 }
 
@@ -36,7 +36,7 @@ val copy = tasks.named("copyMyFile") {
 
 // see more on developing custom tasks: https://docs.gradle.org/current/userguide/custom_tasks.html
 
-tasks.register("usingTheCopy") {
+tasks.register("verifyTheCopy") {
     doLast {
         fileTree(resourcesDestination).forEach {
             logger.lifecycle("COPIED FILE: ${it.path}")
@@ -45,7 +45,7 @@ tasks.register("usingTheCopy") {
 }
 
 tasks.register("build") {
-    dependsOn("copyMyFile", "usingTheCopy")
+    dependsOn("copyMyFile", "verifyTheCopy")
 }
 
 // 3. Show parallel tasks execution by removing mustRunAfter
@@ -76,3 +76,16 @@ tasks.register("meeting") {
 // ./gradlew -Dorg.gradle.internal.tasks.stats hello
 // ./gradlew --scan hello
 
+// Exercise: Add base plugin and hook to build task + show clean task
+
+//plugins {
+//    id("base")
+//}
+//
+//tasks.named("assemble") {
+//    dependsOn("copyMyFile")
+//}
+//
+//tasks.named("check") {
+//    dependsOn("verifyTheCopy")
+//}
