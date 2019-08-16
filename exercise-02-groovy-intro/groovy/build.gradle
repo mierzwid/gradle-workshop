@@ -29,14 +29,14 @@ println createMessage()
 class AEM {
 
     String company
-    
+
     String version
 
     def fullName() {
         "AEM $version made by $company"
     }
 
-    AEM (company, version){
+    AEM(company, version) {
         this.company = company
         this.version = version
     }
@@ -57,41 +57,23 @@ echoIt(true)
 
 // Passing closures - like JS function, closure is an object
 
-def oneArgMethod(closure) {
-    closure() * 2
+def oneArgMethod(action) {
+    action() * 2
 }
 
 println "One arg method: ${oneArgMethod { 4 }}"
 
-def twoArgMethod(factor, closure) {
-    closure() * factor
-} 
+def twoArgMethod(factor, action) {
+    action() * factor
+}
 
 println "One arg method: ${twoArgMethod(3) { 4 }}"
 
-
 // Looping
 // make sure to name param, since it name will be overridden in subsequent lambda
-[1, 2, 3, 4, 5].each { param -> 
+[1, 2, 3, 4, 5].each { param ->
     println oneArgMethod { param }
 }
-
-// Closure context - lexical scope and delegates
-
-class Obj {
-    String prop = "prop value"
-    String name = "Obj name"
-
-    Closure printer = {
-        println "Prop value: $name"
-    }
-}
-
-def obj = new Obj()
-obj.printer() //Prop value: prop value
-obj.printer = { println "Prop value: $name" } // context of a build file
-obj.printer() //gradle-workshop 
-
 
 // Closure get reference to an object, not a value itself.
 def variable = "A"
@@ -102,20 +84,30 @@ def echoVariable = {
 
 variable = "B"
 
-echoVariable()
+echoVariable() // Variable value: B
 
-// setting closure context (delegate)
-class ContextObj {
-    String prop = "prop value"
-    String name = "Obj name"
+// Let's mimic implementation of Gradle Application Plugin in Groovy - Closure context - lexical scope and delegates
+class ApplicationPlugin {
+    String mainClassName = ""
+    List applicationDefaultJvmArgs = []
 
-    def executeInside(closure) {
-        closure.delegate = this
-        closure()
+    def run() {
+        println "java -cp build/distributions/app.jar $mainClassName " + applicationDefaultJvmArgs.join(" ")
+    }
+
+    def configure(action) {
+        action.delegate = this
+        action()
     }
 }
 
-def context = new ContextObj()
+def application(action) {
+    def app = new ApplicationPlugin()
+    app.configure(action)
+    app.run()
+}
 
-context.executeInside { println "My prop: $prop" }
-context.executeInside { println "My name: $name" }
+application {
+    mainClassName = "com.cognified.Main"
+    applicationDefaultJvmArgs = ["-Xms2G", "-Xmx2G"]
+}

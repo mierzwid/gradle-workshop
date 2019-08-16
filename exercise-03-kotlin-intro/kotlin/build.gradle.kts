@@ -44,11 +44,11 @@ val createMessageLambda = {
 println(createMessageLambda()) // Last expression is returned from a lambda
 
 // Classes and Objects: https://kotlinlang.org/docs/reference/classes.html#classes-and-inheritance
-class AEM(val company: String, val version: String) {  // final by default
+class AEM(val company: String = "Adobe", val version: String) {  // final by default
     fun fullName() = "AEM $version made by $company" // short notation -> return type inferred
 }
 
-val aem = AEM("Adobe", "6.5") // new keyword omitted
+val aem = AEM(version = "6.5") // new keyword omitted
 
 println(aem.fullName()) // props are public by default
 
@@ -60,38 +60,33 @@ val echoIt: (Any) -> Unit = {
 }
 echoIt(true)
 
-// Extention functions: https://kotlinlang.org/docs/reference/extensions.html#extension-functions
+// Extension functions: https://kotlinlang.org/docs/reference/extensions.html#extension-functions
 fun AEM.prettyName() {
     println("Pretty: AEM $version made by $company")
 }
 
 aem.prettyName()
 
-// Function literals with receiver: https://kotlinlang.org/docs/reference/lambdas.html#function-literals-with-receiver
+// Let's mimic implementation of Gradle Application Plugin in Kotlin
+// - Function literals with receiver: https://kotlinlang.org/docs/reference/lambdas.html#function-literals-with-receiver
 
-class Plugin(var name: String = "Fast Plugin", var timeout: Long = 100L) {
-    fun doTheJob() {
-        println("$name work started!")
-        Thread.sleep(timeout)
-        println("$name work done!")
+class ApplicationPlugin(var mainClassName: String = "", var applicationDefaultJvmArgs: List<String> = listOf()) {
+    fun run() {
+        println("java -cp build/distributions/app.jar $mainClassName " + applicationDefaultJvmArgs.joinToString(" "))
     }
 }
 
-val plugin = Plugin()
+val plugin = ApplicationPlugin()
 
-plugin.doTheJob()
-
-fun pluginDsl(configurer: Plugin.() -> Unit) {
-    plugin.apply(configurer)
+fun application(configurer: ApplicationPlugin.() -> Unit) {
+    val plugin = ApplicationPlugin().apply(configurer)
+    plugin.run()
 }
 
-pluginDsl {
-    name = "Slow plugin"
-    timeout = 5000L
+application {
+    mainClassName = "com.cognified.Main"
+    applicationDefaultJvmArgs = listOf("-Xms2G", "-Xmx2G")
 }
-
-plugin.doTheJob()
-
 
 //Exercise: Write code enabling to create HTML - body and div tags
 println("Exercise: Write code enabling to create HTML - body and div tags")
