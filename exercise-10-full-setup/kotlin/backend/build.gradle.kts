@@ -1,4 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+import java.awt.Desktop
+import java.net.URI
+
+// Generated using: https://start.spring.io/#!language=kotlin&type=gradle-project
 
 plugins {
     id("org.springframework.boot") version "2.1.8.RELEASE"
@@ -7,8 +12,6 @@ plugins {
     kotlin("plugin.spring") version "1.2.71"
 }
 
-group = "com.example"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
@@ -25,13 +28,33 @@ dependencies {
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
 
-tasks.named("processResources") {
-    dependsOn(":frontend:copyReactAppToAppClasspath")
-}
+tasks {
+    named<BootJar>("bootJar") {
+        from(project(":frontend").buildDir) {
+            into("static")
+        }
+        dependsOn(":frontend:build")
+    }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
+    register<Exec>("run") {
+        commandLine = listOf("java", "-jar", "$buildDir/libs/${project.name}-${project.version}.jar")
+        doFirst {
+            Thread {
+                Thread.sleep(5000)
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(URI("http://localhost:8080"))
+                }
+            }.start()
+        }
+        dependsOn("bootJar")
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "1.8"
+        }
     }
 }
+
+
