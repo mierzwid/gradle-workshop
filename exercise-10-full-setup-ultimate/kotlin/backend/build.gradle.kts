@@ -1,7 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
-import java.awt.Desktop
-import java.net.URI
 
 // Generated using: https://start.spring.io/#!language=kotlin&type=gradle-project
 
@@ -19,7 +17,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":frontend"))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -29,24 +26,15 @@ dependencies {
 }
 
 tasks {
-    named<BootJar>("bootJar") {
+    named<Copy>("processResources") {
         from(project(":frontend").buildDir) {
             into("static")
         }
         dependsOn(":frontend:build")
     }
 
-    register<Exec>("run") {
-        commandLine = listOf("java", "-jar", "$buildDir/libs/${project.name}-${project.version}.jar")
-        doFirst {
-            Thread {
-                Thread.sleep(5000)
-                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    Desktop.getDesktop().browse(URI("http://localhost:8080"))
-                }
-            }.start()
-        }
-        dependsOn("bootJar")
+    withType<BootJar> {
+        archiveFileName.set("${rootProject.name}-${project.version}.jar")
     }
 
     withType<KotlinCompile> {
@@ -56,5 +44,3 @@ tasks {
         }
     }
 }
-
-

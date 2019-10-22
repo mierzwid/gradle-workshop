@@ -1,27 +1,27 @@
 import com.moowork.gradle.node.npm.NpmTask
 
-// Generated using: https://create-react-app.dev/docs/getting-started
-
 plugins {
-    id("com.moowork.node") version "1.3.1"
-}
-
-tasks {
-    register<NpmTask>("buildReactApp") {
-        dependsOn("npmInstall")
-        setArgs(listOf("run", "build"))
-
-        inputs.file("package.json")
-        inputs.dir("src")
-        inputs.dir("public")
-        outputs.dir(buildDir)
-    }
-    named("build") {
-        dependsOn("buildReactApp")
-    }
+    id("com.github.node-gradle.node") version "2.0.0"
 }
 
 node {
     version = "10.16.1"
     download = true
+}
+
+tasks {
+    register<NpmTask>("buildReact") {
+        setArgs(listOf("run", "build"))
+
+        inputs.file("package.json")
+        inputs.dir("public")
+        inputs.dir("src")
+        outputs.dir(buildDir)
+
+        dependsOn("npmInstall")
+    }
+
+    named("build") {
+        dependsOn("buildReact")
+    }
 }
