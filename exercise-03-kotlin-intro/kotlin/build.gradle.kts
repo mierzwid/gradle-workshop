@@ -79,14 +79,15 @@ class ApplicationPlugin(var mainClassName: String = "", var applicationDefaultJv
 val plugin = ApplicationPlugin()
 
 fun application(configurer: ApplicationPlugin.() -> Unit) {
-    val plugin = ApplicationPlugin().apply(configurer)
-    plugin.run()
+    plugin.apply(configurer)
 }
 
 application {
     mainClassName = "com.cognified.Main"
     applicationDefaultJvmArgs = listOf("-Xms2G", "-Xmx2G")
 }
+
+plugin.run()
 
 //Exercise: Write code enabling to create HTML - body and div tags
 println("Exercise: Write code enabling to create HTML - body and div tags")

@@ -1,0 +1,1 @@
+logger.lifecycle("Gradle Workshop: buildSrc/build.gradle.kts : Logging in :buildSrc configuration phase!")
