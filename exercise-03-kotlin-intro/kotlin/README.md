@@ -92,6 +92,16 @@ val echoIt: (Any) -> Unit = {
 echoIt(true)
 ```
 
+NOTICE: If last parameter passed to a function is lambda, then we can place it outside "()". 
+
+```kotlin
+fun myFun(lambda: () -> Unit){...}
+
+myFun {
+    // it is lambda which is going to be passed to myFun!
+}
+```
+
 ## Extension functions
 
 See: https://kotlinlang.org/docs/reference/extensions.html#extension-functions
