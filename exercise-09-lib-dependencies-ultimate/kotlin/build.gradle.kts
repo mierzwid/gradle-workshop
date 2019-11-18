@@ -3,11 +3,16 @@
 // project to the classpath. So you can enter the “api” directory and trigger a “gradle compile”. First the “shared”
 // project is built and then the “api” project is built. Project dependencies enable partial multi-project builds.
 
-// 1. setup configuration for all subprojects
+// 1. Setup configuration for all subprojects
 // this is Java multi project
 // personService depends on both api & shared
 // api depends on shared
 // all projects require junit:junit:4.12 for testing
+
+// 2. If we are developing api project, we have 3 different options to build it. Try each of them.
+// * build - builds, test, analyze current project (if there are plugins hooked), skips testing and analyzing of dependent projects
+// * buildNeeded - builds, test, analyze current project together with all projects it depends on
+// * buildDependents - builds, test, analyze current project, projects it depends on and all projects that depends on the current
 
 subprojects {
     apply(plugin = "java")
@@ -33,10 +38,3 @@ project(":services:personService") {
         "implementation"(project(":api"))
     }
 }
-
-// 2. If we are developing api project, we have 3 different options to build it:
-// * build - builds, test, analyze current project (if there are plugins hooked), skips testing and analyzing of dependent projects
-// * buildNeeded - builds, test, analyze current project together with all projects it depends on
-// * buildDependents - builds, test, analyze current project, projects it depends on and all projects that depends on the current
-
-// Exercise: Why we use String ("implementation") instead of implementation DSL?
