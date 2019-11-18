@@ -94,3 +94,7 @@ java {
 ```
 
 As you can see, we can customize here plugin behavior.
+
+## Conventions
+
+Extensions to the project object: https://docs.gradle.org/current/userguide/java_plugin.html#convention_properties

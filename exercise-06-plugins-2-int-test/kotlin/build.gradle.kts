@@ -1,11 +1,16 @@
-import org.gradle.kotlin.dsl.codegen.apiTypeProviderFor
-
 plugins {
     id("java")
 }
 
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withJavadocJar()
+    withSourcesJar()
 }
 
 sourceSets {
