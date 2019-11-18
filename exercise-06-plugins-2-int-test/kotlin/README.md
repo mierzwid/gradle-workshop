@@ -1,0 +1,71 @@
+## Integration test example
+
+To have a better understanding of plugins mechanics let's define new source set to represent integration tests in our project. The simplest way to add integration tests to your build is by taking these steps:
+1. Create a new source set for them
+2. Add the dependencies you need to the appropriate configurations for that source set
+3. Configure the compilation and runtime classpaths for that source set
+4. Create a task to run the integration tests
+
+### Create a new source set
+
+```kotlin
+sourceSets {
+    create("intTest") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+```
+
+This will set up a new source set called intTest that automatically creates: 
+* intTestImplementation, intTestCompileOnly, intTestRuntimeOnly configurations,
+* a compileIntTestJava task that will compile all the source files under src/intTest/java
+
+### Add the dependencies you need to the appropriate configurations for that source set
+
+```kotlin
+//configurations["intTestImplementation"].extendsFrom(configurations.implementation.get())
+val intTestImplementation by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+
+// configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+val intTestRuntimeOnly by configurations.getting {
+    extendsFrom(configurations.runtimeOnly.get())
+}
+```
+
+This adds all the declared dependencies of the production code also become dependencies of the integration tests. Same with runtime configuration.
+
+NOTICE: In most cases, you want your integration tests to have access to the classes under test, which is why we ensure that those are included on the compilation and runtime classpaths in this example. But some types of test interact with the production code in a different way. For example, you may have tests that run your application as an executable and verify the output. In the case of web applications, the tests may interact with your application via HTTP. Since the tests don’t need direct access to the classes under test in such cases, you don’t need to add the production classes to the test classpath.
+
+### Configure the compilation and runtime classpaths for that source set
+
+```kotlin
+dependencies {
+    // ...
+    intTestImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
+    intTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+}
+```
+
+### Create a task to run the integration tests
+
+```kotlin
+tasks {
+    register<Test>("intTest") {
+        description = "Runs integration tests."
+        group = "verification"
+
+        classpath = sourceSets["intTest"].runtimeClasspath
+        testClassesDirs = sourceSets["intTest"].output.classesDirs
+
+        useJUnitPlatform()
+        testLogging.showStandardStreams = true
+
+        shouldRunAfter("test")
+    }
+
+    named("check") { dependsOn("intTest") }
+}
+```
