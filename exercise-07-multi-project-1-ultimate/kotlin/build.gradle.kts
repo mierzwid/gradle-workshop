@@ -44,10 +44,10 @@ configure(subprojects.filter { it.name != "tropicalFish" }) {
 // 7. Filtering via properties - configuration dependencies
 
 subprojects {
-    val hello by tasks.existing
 
     afterEvaluate {
         if (extra["isFish"] as Boolean) {
+            val hello by tasks.existing
             hello {
                 doLast {
                     println("- I'm a fish")
