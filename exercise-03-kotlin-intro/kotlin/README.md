@@ -95,7 +95,7 @@ echoIt(true)
 NOTICE: If last parameter passed to a function is lambda, then we can place it outside "()". 
 
 ```kotlin
-fun myFun(lambda: () -> Unit){...}
+fun myFun(lambda: () -> Unit){/*...*/}
 
 myFun {
     // it is lambda which is going to be passed to myFun!
@@ -113,6 +113,38 @@ fun AEM.prettyName() {
 
 aem.prettyName()
 ```
+
+## Receiving objects
+
+Let's see now, how we can make use of extension functions in the context of lambdas. As mentioned before, lambdas are strongly typed. The compiler always knows types of input parameters as well as the return type of a lambda. Now think of another type we could specify for it, the receiving object type, type of an object in the context of which this lambda would be executed.
+
+Lets see example of using `prettyName` extenstion function as lambda:
+
+```kotlin
+val pretty: AEM.() -> Unit = {
+    println("Lambda with receiving object: AEM $version made by $company")
+}
+```
+
+This `pretty` lambda can be executed only in the context of the AEM object. How to invoke it? We can pass an AEM object instance to the invocation and then, the parameters it has (in this case none).
+
+```kotlin
+pretty(aem)
+```
+
+Nice, isn't it? However, Kotlin comes with even more fun, you can invoke this lambda directly on an object!
+
+```kotlin
+aem.pretty()
+```
+
+Also, you can use `apply` function to apply our lambda on an object if you prefer this notation:
+
+```kotlin
+aem.apply(pretty)
+``` 
+
+Isn't it wicked cool? (Yes, I love Venkat's book on programming in Kotlin).
 
 ## Gradle utilizing Kotlin - lets mimic Application plugin
 

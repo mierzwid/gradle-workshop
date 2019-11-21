@@ -67,6 +67,16 @@ fun AEM.prettyName() {
 
 aem.prettyName()
 
+// Receiving objects
+
+val pretty: AEM.() -> Unit = {
+    println("Lambda with receiving object: AEM $version made by $company")
+}
+
+pretty(aem)
+aem.pretty()
+aem.apply(pretty)
+
 // Let's mimic implementation of Gradle Application Plugin in Kotlin
 // - Function literals with receiver: https://kotlinlang.org/docs/reference/lambdas.html#function-literals-with-receiver
 
