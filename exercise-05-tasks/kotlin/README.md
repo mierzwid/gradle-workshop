@@ -8,7 +8,7 @@ Task named "tasks" allows you to see tasks defined for the project.
 
 ## Defining tasks
 
-Usually, we simply make use of tasks defined by plugins, so we don't need to define them by hand. We will have a look on it in the [Exercise 6 - Plugins](../../exercise-06-plugins-initial/kotlin/README.md). However, when you need to do some custom logic, you'll deal with custom tasks.
+Usually, we simply make use of tasks defined by plugins, so we don't need to define them by hand. We will have a look on it in the [Exercise 6 - Plugins](../../exercise-06-plugins-1-java/kotlin/README.md). However, when you need to do some custom logic, you'll deal with custom tasks.
 
 
 ### Lazy configuration
@@ -232,6 +232,7 @@ register("verifyTheCopy") {
         }
         File(reportDestination, "report.txt").writeText("OK")
     }
+    dependsOn("copyMyFiles")
 }
 ```
 
@@ -246,3 +247,5 @@ We will cover the more advanced scenario in one of the following exercises. More
 Review following command output and try to improve your build:
 * `./gradlew -Dorg.gradle.internal.tasks.stats meeting`
 * `./gradlew --scan meeting`
+
+## For volunteers: Implement "archiveMyCopy" task which will create zip of the copied files (remember to test caching)

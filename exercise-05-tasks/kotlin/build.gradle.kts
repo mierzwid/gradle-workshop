@@ -1,7 +1,3 @@
-// 1. Configuration vs execution: ./gradlew tasks
-
-// create directory with files
-
 
 // for other types of tasks to work with files please see: https://docs.gradle.org/current/userguide/working_with_files.html
 tasks.register("myFirstTask") {
@@ -37,8 +33,6 @@ tasks {
 
 //copy.get() // defeats the concept of configuration avoidance when task it not run
 
-// 2. Tasks dependencies
-
 // see more on developing custom tasks: https://docs.gradle.org/current/userguide/custom_tasks.html
     val reportDestination = "$buildDir/reports"
     val validationMode = project.properties["gradle-workshop.validation.mode"]
@@ -52,10 +46,25 @@ tasks {
             }
             File(reportDestination, "report.txt").writeText("OK")
         }
+        dependsOn("copyMyFiles")
+    }
+
+    register<Zip>("archiveMyCopy") {
+        val distDir = "$buildDir/dist"
+        doFirst {
+            mkdir(distDir)
+        }
+        from(resourcesDestination)
+        archiveBaseName.set("myCopy")
+        destinationDirectory.set(file(distDir))
+        doLast {
+            logger.lifecycle("Archived!")
+        }
+        dependsOn("verifyTheCopy")
     }
 
     register("build") {
-        dependsOn("copyMyFiles", "verifyTheCopy")
+        dependsOn("archiveMyCopy")
     }
 
 // 3. Show parallel tasks execution by removing mustRunAfter
