@@ -4,7 +4,18 @@ This will be quick dive into Kotlin programming language from the perspective of
 
 For more complete information please use [Kotlin Language docs](https://kotlinlang.org/docs/reference/) 
 
-## General - JVM language
+## General 
+https://kotlinlang.org/
+
+### Concise
+
+It really reduces the amount of code without loose on readability.
+
+### Safe
+
+Strictly statically typed - lot of work is done during compilation. Avoid entire classes of errors like NPE.
+
+### Interoperable
 
 Kotlin is a JVM language, which means that all the Java libraries are also available in Kotlin. Let's see:
 
@@ -15,6 +26,9 @@ System.out.println("Hello World!")
 ``` 
 
 The following two lines of code are equivalent. `println` is just a shortcut in Kotlin. We can simply invoke any function or instantiate an object from Java in Kotlin.
+
+For details about Kotlin<->Java interoperability please read: https://kotlinlang.org/docs/reference/java-interop.html
+Kotlin is not restricted to JVM only - there are other environments where it can be run: Android, Browser, Native.
 
 ## Types and mutability
 
@@ -196,4 +210,6 @@ val document = html {
 println(document)
 ```
 
+# Play with Kotlin
 
+https://play.kotlinlang.org/
