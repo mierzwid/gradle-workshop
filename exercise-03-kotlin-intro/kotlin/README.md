@@ -166,9 +166,9 @@ See: https://kotlinlang.org/docs/reference/lambdas.html#function-literals-with-r
 
 ```kotlin
 // Function literals with receiver: 
-class ApplicationPlugin(var mainClassName: String = "", var applicationDefaultJvmArgs: List<String> = listOf()) {
+class ApplicationPlugin(var mainClassName: String = "", var defaultJvmArgs: List<String> = listOf()) {
     fun run() {
-        println("java -cp build/distributions/app.jar $mainClassName " + applicationDefaultJvmArgs.joinToString(" "))
+        println("java -cp build/distributions/app.jar $mainClassName " + defaultJvmArgs.joinToString(" "))
     }
 }
 
@@ -181,7 +181,7 @@ fun application(configurer: ApplicationPlugin.() -> Unit) {
 
 application {
     mainClassName = "com.cognified.Main"
-    applicationDefaultJvmArgs = listOf("-Xms2G", "-Xmx2G")
+    defaultJvmArgs = listOf("-Xms2G", "-Xmx2G")
 }
 ```
 
