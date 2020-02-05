@@ -144,3 +144,15 @@ Run: `/gradlew distanceToIceberg`
 ## Execute tasks by absolute paths
 
 `cd tropicalFish ; ../gradlew -q :hello :krill:hello hello`
+
+## Apply plugin outside the `plugins` section
+
+```kotlin
+subprojects {
+    apply(plugin = "java")
+    
+    dependencies {
+        "testImplementation"("junit:junit:4.12")
+    }
+}
+```

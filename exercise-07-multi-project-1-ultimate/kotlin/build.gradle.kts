@@ -69,3 +69,13 @@ subprojects {
 // 10. Execute tasks by their absolute path
 
 // cd tropicalFish ; ../gradlew -q :hello :krill:hello hello
+
+// 11. Apply plugin outside the `plugins` section
+
+subprojects {
+    apply(plugin = "java")
+
+    dependencies {
+        "testImplementation"("junit:junit:4.12")
+    }
+}
