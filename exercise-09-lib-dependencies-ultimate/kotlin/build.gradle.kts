@@ -15,11 +15,11 @@
 // * buildDependents - builds, test, analyze current project, projects it depends on and all projects that depends on the current
 
 subprojects {
-    apply(plugin = "java")
+    apply(plugin = "java-library")
     group = "org.gradle.sample"
     version = "1.0"
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         "testImplementation"("junit:junit:4.12")
@@ -28,13 +28,12 @@ subprojects {
 
 project(":api") {
     dependencies {
-        "implementation"(project(":shared"))
+        "api"(project(":shared"))
     }
 }
 
 project(":services:personService") {
     dependencies {
-        "implementation"(project(":shared"))
         "implementation"(project(":api"))
     }
 }
